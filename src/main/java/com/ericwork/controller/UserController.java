@@ -29,13 +29,41 @@ public class UserController {
     }
 
 
-    @RequestMapping(path = "/addUser")
+    @RequestMapping(path = "/addUser", params = "email")
     public void insertUser(HttpServletRequest request, HttpServletResponse response) throws IOException {
         request.setCharacterEncoding("UTF-8");
         response.setCharacterEncoding("UTF-8");
+        String email = request.getParameter("email");
+        User user = new User();
+        user.setEmail(email);
+        user.setUsername("xx");
+        user.setPassword("password");
+        user.setRegIp(getIpAddress(request));
+        user.setRole("3");
+        user.setStatus(2);
+        this.service.insertUser(user);
 
-        this.service.insertUser();
         response.getWriter().close();
     }
 
+
+    public static String getIpAddress(HttpServletRequest request) {
+        String ip = request.getHeader("x-forwarded-for");
+        if (ip == null || ip.length() == 0 || "unknown".equalsIgnoreCase(ip)) {
+            ip = request.getHeader("Proxy-Client-IP");
+        }
+        if (ip == null || ip.length() == 0 || "unknown".equalsIgnoreCase(ip)) {
+            ip = request.getHeader("WL-Proxy-Client-IP");
+        }
+        if (ip == null || ip.length() == 0 || "unknown".equalsIgnoreCase(ip)) {
+            ip = request.getHeader("HTTP_CLIENT_IP");
+        }
+        if (ip == null || ip.length() == 0 || "unknown".equalsIgnoreCase(ip)) {
+            ip = request.getHeader("HTTP_X_FORWARDED_FOR");
+        }
+        if (ip == null || ip.length() == 0 || "unknown".equalsIgnoreCase(ip)) {
+            ip = request.getRemoteAddr();
+        }
+        return ip;
+    }
 }

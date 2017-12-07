@@ -12,7 +12,7 @@
         SELECT * FROM user_ssm WHERE id = #{id}
     </select>
 
-    <insert id="insertObject" parameterType="User">
+    <insert id="saveObject" parameterType="User">
         INSERT INTO user_ssm
         <trim prefix="(" suffix=")">
             email,password,username,roles,status,regTime,regIp

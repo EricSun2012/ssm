@@ -17,15 +17,10 @@ public class UserService {
         return this.userDao.selectObject(userId);
     }
 
-    public void insertUser() {
-        User user = new User();
-        user.setEmail("12@11d.com");
-        user.setUsername("22");
-        user.setPassword("311");
-        user.setRegIp("1");
-        user.setRole("122");
-        user.setStatus(5);
+    public void insertUser(User user) {
         user.setRegTime(new Date());
-        userDao.insertObject(user);
+        userDao.saveObject(user);
     }
+
+
 }
